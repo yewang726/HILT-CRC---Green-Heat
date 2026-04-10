@@ -11,7 +11,7 @@ import platform
 import re
 import os
 
-def SolarResource(location, casedir=None, solcast_TMY=False):
+def SolarResource(location, casedir=None, solcast_TMY=False, wea_fn_input=False):
     """
     This function will take the location, get the corresponding solar weather data file
     
@@ -108,13 +108,17 @@ def SolarResource(location, casedir=None, solcast_TMY=False):
              print('Load existing solar data file') 
     
     else:
-        wea_fn=datadir + "weather/weather_data_%s.csv"%location   
+        if wea_fn_input:	
+            wea_fn=wea_fn_input
+        else:	
+            wea_fn=datadir + "weather/weather_data_%s.csv"%location   
+            
         print('Load solar data file from /data/weather')   
        
     return wea_fn
 
 
-def WindSource(location, casedir=None, solcast_TMY=False):
+def WindSource(location, casedir=None, solcast_TMY=False, wea_fn_input=False):
     """
     This function will take the location, get the corresponding wind data file for SAM model
 
@@ -242,7 +246,11 @@ def WindSource(location, casedir=None, solcast_TMY=False):
              print('Load existing wind data file')   
 
     else:
-        wea_fn_ori=datadir + "weather/weather_data_%s.csv"%location  
+        if wea_fn_input:
+            wea_fn_ori=wea_fn_input
+        else:
+            wea_fn_ori=datadir + "weather/weather_data_%s.csv"%location 
+ 
         data = pd.read_csv(wea_fn_ori, skiprows=0)
         Lat = data.lat[0]
         Lon = data.lon[0]

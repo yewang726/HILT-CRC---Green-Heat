@@ -566,6 +566,8 @@ def plot_cf_lcoh_comparison(location, resdir, year=2020):
     ax.yaxis.set_tick_params(labelsize=fts)
     ax.set_ylim([0, 300])
     #plt.title(case)
+    if 'Pinjar' in location:
+        location='Peel'
     plt.title(location+' %s'%year)
     plt.savefig(open('%s/post/%s/Comparison-LCOH-CF-%s.png'%(resdir, year, location),'wb'), bbox_inches='tight', dpi=200)
     #plt.show()
@@ -858,7 +860,7 @@ def plot_breakdown_compare(cf0, resdir, year=2020, process=False):
     locations=np.array([ 'Pilbara', 'Burnie',  'Gladstone', 'Pinjarra',   'Upper Spencer Gulf'])
     cases=np.array(['CST-modular', 'TES-PV', 'TES-WIND', 'TES-HYBRID',  'BAT-PV', 'BAT-WIND', 'BAT-HYBRID','PHES-PV','PHES-WIND','PHES-HYBRID', 'H2'])
     LABELS=['TES+CST', 'TES+PV',  'TES+Wind', 'TES+PV+Wind',  'BAT+PV', 'BAT+Wind', 'BAT+PV+Wind', 'PHES+PV', 'PHES+Wind','PHES+PV+Wind', 'Hydrogen']
-    loc_labels=[ 'Pilbara', 'Burnie',  'Gladstone',   'Pinjara',  'Upper Spencer Gulf']
+    loc_labels=[ 'Pilbara', 'Burnie',  'Gladstone',   'Peel',  'Upper Spencer Gulf']
     COLORS=[5,6,7,8,13,14,15,1,2,3,9, 11] 
 
     fig, ax = plt.subplots(figsize=(12,6))
@@ -991,7 +993,7 @@ def get_CST_breakdown(location):
 
 def get_breakdown_design(location, resdir, P_load=500e3, year=2020, OM_method='SL', fast=True):
 
-    cases=['CST', 'CST-modular']#,'TES-PV', 'TES-WIND', 'TES-HYBRID',  'BAT-PV', 'BAT-WIND', 'BAT-HYBRID','PHES-PV','PHES-WIND','PHES-HYBRID']
+    cases=[ 'CST-modular']#,'CST','TES-PV', 'TES-WIND', 'TES-HYBRID',  'BAT-PV', 'BAT-WIND', 'BAT-HYBRID','PHES-PV','PHES-WIND','PHES-HYBRID']
     #LABELS=['CST+TES', 'PV+TES',  'WT+TES', 'PV+WT+TES',  'PV+BAT', 'WT+BAT', 'PV+WT+BAT', 'PV+PHES', 'WT+PHES','PV+WT+PHES']
  
     CF0=np.r_[40., 50., 60., 70., 80., 90., 95., 99.]
@@ -1078,8 +1080,8 @@ if __name__=='__main__':
             'Wind+PHES',
             ]
 
-    workdir='/mnt/data/Research/git-greenheat-paper/CF-curves-new-wind'#'/media/yewang/Data/Work/Research/Topics/yewang/HILTCRC/results/CF-curves-new-wind'
-    year=2050
+    workdir='/media/yewang/Data/Work/Research/Topics/yewang/HILTCRC/results/CF-curves-new-wind'
+    year=2020
 
     # plot CF-RM-SH curves
     if 0:
@@ -1109,14 +1111,14 @@ if __name__=='__main__':
         #        future_cost(location, case, P_load=500.e3, year=2020, costmodel=costmodel, resdir= workdir)
         #        get_cf_lcoh_optimal(location, case, resdir= workdir, year=year, plot=False)
          
-    if 0:
-        #for location in locations:
-        #    plot_cf_lcoh_comparison(location, workdir, year)		
+    if 1:
+        for location in locations:
+            plot_cf_lcoh_comparison(location, workdir, year)		
      
             #plot_breakdown_bars(location, workdir)
 
         plot_breakdown_compare(cf0=90., resdir=workdir, year=2050, process=True)
-    if 1:
+    if 0:
 	    #get_CST_breakdown('Pilbara')
 	    for location in locations:
 	        get_breakdown_design(location, resdir=workdir, P_load=500e3, year=year, OM_method='SL', fast=True)
